@@ -5,13 +5,12 @@ GPIO.setwarnings( 0 )
 
 print( "GPIO morse code" )
 
-def pulse( pin_nr, high_time, low_time ):
-   """
-   Geef een puls op de pin:
-   Maak de pin pin_nr hoog, wacht high_time,
-   maak de pin laag, en wacht nog low_time
-   """
-   # copieer hier je implementatie van pulse
+def pulse( pin_nr, high_time, low_time):
+    
+   GPIO.output(pin_nr, GPIO.HIGH)
+   time.sleep(high_time)
+   GPIO.output(pin_nr, GPIO.LOW)
+   time.sleep(low_time)
 
 def morse( pin_nr, dot_length, text ):
    """
@@ -21,7 +20,18 @@ def morse( pin_nr, dot_length, text ):
    De dot_length is de lengte van een punt (dot).
    De lengte van de andere characters wordt daar van afgeleid.
    """
-   # implementeer deze functie 
+   for char in text: 
+       if char == ".":
+           GPIO.output( pin_nr, GPIO.HIGH)
+           time.sleep(dot_length)
+       elif char == "-":
+           GPIO.output( pin_nr, GPIO.HIGH)
+           time.sleep(dot_length * 2.5)
+       else:
+           GPIO.output( pin_nr, GPIO.HIGH)
+           time.sleep(dot_length * 5)
+       GPIO.output( pin_nr, GPIO.LOW)
+       time.sleep(0.5)
 
 led = 18
 GPIO.setup( led, GPIO.OUT )

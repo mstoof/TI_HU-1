@@ -49,7 +49,7 @@ _pytransform = None
 
 
 class PytransformError(Exception):
-    pass
+    print(Exception)
 
 
 def dllmethod(func):

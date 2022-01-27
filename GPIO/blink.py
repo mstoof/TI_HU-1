@@ -1,7 +1,6 @@
 import RPi.GPIO as GPIO
 import time
 GPIO.setmode( GPIO.BCM )
-GPIO.setwarnings( 0 )
 
 print( "GPIO blink" )
 

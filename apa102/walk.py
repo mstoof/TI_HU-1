@@ -16,15 +16,23 @@ def apa102_send_bytes( clock_pin, data_pin, bytes ):
     zend de bytes naar de APA102 LED strip die is aangesloten op de clock_pin en data_pin
     """
     
-    # implementeer deze functie:
-    
-    # zend iedere byte in bytes:
-    #    zend ieder bit in byte:
-    #       maak de data pin hoog als het bit 1 is, laag als het 0 is
-    #       maak de clock pin hoog
-    #       maak de clock pin laag
-   
+    for byte in bytes:
+        binary = []
 
+        for i in range(0, 8):
+            bit = byte % 2
+            binary.insert(0, bit)
+            byte = byte // 2
+
+        for bit in binary:
+            if bit == 1:
+                GPIO.output(data_pin, 1)
+            if bit == 0:
+                GPIO.output(data_pin, 0)
+        
+        GPIO.output(clock_pin, 1)
+        GPIO.output(clock_pin, 0)
+    
 def apa102( clock_pin, data_pin, colors ):
     """
     zend de colors naar de APA102 LED strip die is aangesloten op de clock_pin en data_pin
@@ -37,13 +45,17 @@ def apa102( clock_pin, data_pin, colors ):
     zet de eerste LED uit, de tweede vol aan (wit) en de derde op blauw, halve strekte.
     """
     
-    # implementeer deze functie, maak gebruik van de apa102_send_bytes functie
-    
-    # zend eerst 4 bytes met nullen
-    # zend dan voor iedere pixel:
-    #    eerste een byte met allemaal enen
-    #    dan de 3 bytes met de kleurwaarden
-    # zend nog 4 bytes, maar nu met allemaal enen
+    apa102_send_bytes(clock_pin, data_pin, [0, 0, 0, 0])
+
+    for color in colors:
+        apa102_send_bytes(clock_pin, data_pin, [255])
+        apa102_send_bytes(clock_pin, data_pin, color)
+
+    apa102_send_bytes(clock_pin, data_pin, [255, 255, 255, 255])
+
+    apa102_send_bytes(clock_pin, data_pin, [0, 0, 0, 0])
+
+
 
 blue = [ 8, 0, 0 ]
 green = [ 0, 255, 0 ]

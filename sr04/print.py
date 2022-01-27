@@ -9,7 +9,7 @@ sr04_trig = 20
 sr04_echo = 21
 
 GPIO.setup( sr04_trig, GPIO.OUT )
-GPIO.setup( sr04_echo, GPIO.IN, pull_up_down=GPIO.PUD_DOWN )
+GPIO.setup( sr04_echo, GPIO.IN)
 
 def sr04( trig_pin, echo_pin ):
    """
@@ -19,17 +19,33 @@ def sr04( trig_pin, echo_pin ):
    """
     
    # send trigger pulse    
-   # inplement this step
+   GPIO.output(trig_pin, False)
+   time.sleep(2)
+   GPIO.output(trig_pin, True)
+   start_time = time.time()
+   stop_time = time.time()
+   print("program is starting")
+   time.sleep(0.00001)
+   GPIO.output(trig_pin, False)
    
    # wait for echo high and remember its start time
-   # inplement this step
-   
+   while GPIO.input(echo_pin) == 0:
+       print("still in start_time")
+       start_time = time.time()
+        
    # wait for echo low and remember its end time
-   # inplement this step
-   
+   while GPIO.input(echo_pin) == 1:
+       print("still in end_time")
+       stop_time = time.time()
+
    # calculate and return distance
-   # inplement this step
+   time_elapsed = stop_time - start_time
+
+   distance = (time_elapsed * 34300) / 2
+   print(f"distance is: {distance}")
+   return distance
 
 while True:
    print( sr04( sr04_trig, sr04_echo ))
-   time.sleep( 0.5 )
+   time.sleep(0.5)
+

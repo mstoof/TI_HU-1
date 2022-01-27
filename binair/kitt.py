@@ -20,9 +20,15 @@ def leds( pins, value, delay ):
     time.sleep( delay )
 
 delay = 0.2
-while True:
-   leds( led_pins,  1, delay )
-   leds( led_pins,  2, delay )
-   leds( led_pins,  4, delay )
-   leds( led_pins,  8, delay )
-   leds( led_pins, 16, delay )
+try: 
+    while True:
+        time.sleep(delay)
+        for led in led_pins:
+            leds( led_pins, led, delay )
+    
+        for led in reversed(led_pins):
+            leds( led_pins, led, delay )
+
+except:
+    for led in led_pins:
+        GPIO.output( led, GPIO.LOW)
